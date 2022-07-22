@@ -1,0 +1,311 @@
+﻿<Window x:Class="EGGSA.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:EGGSA" 
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+        xmlns:viewmodels="clr-namespace:EGGSA.ViewModels"
+        mc:Ignorable="d"
+        Title="MainWindow" 
+        MinHeight="650" MinWidth="800"
+        MaxHeight="650" MaxWidth="800"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+
+    <Window.DataContext>
+        <viewmodels:MainViewModels/>
+    </Window.DataContext>
+
+    <Grid   MinHeight="650" MinWidth="800"
+            MaxHeight="650" MaxWidth="800">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Rectangle Grid.Row="0"
+                   Fill="#00ADB5" MouseLeftButtonDown="Rectangle_MouseLeftButtonDown"/>
+        <Rectangle Grid.Row="1"
+                   Fill="#303841"/>
+        <materialDesign:PackIcon Kind="ExitToApp"
+                                 Width="20"
+                                 Height="20" 
+                                 HorizontalAlignment="Right" 
+                                 VerticalAlignment="Center"
+                                 Margin="0,0,10,0"/>
+        <Label Content="EGGSA" 
+               HorizontalAlignment="Left" 
+               Margin="10,0,0,0" 
+               VerticalAlignment="Center"
+               FontWeight="Bold"/>
+        <materialDesign:PackIcon Kind="Egg" 
+                                 Margin="55,0,0,0" 
+                                 VerticalAlignment="Center"
+                                 Foreground="White"/>
+        <DataGrid Grid.Row="1"
+                  Width="375"
+                  HorizontalAlignment="Right"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  Margin="0,5,5,10"
+                  ItemsSource="{Binding Items}"
+                  CanUserSortColumns="True"
+                  CanUserDeleteRows="False"
+                  SelectedIndex="{Binding SelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Дата"
+                                    Width="175"
+                                    Binding="{Binding Date}"
+                                    IsReadOnly="True"/>
+                <DataGridTextColumn Header="История"
+                                    Width="*"
+                                    Binding="{Binding History}"
+                                    IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button  Height="20"
+                 Width="20"
+                 HorizontalAlignment="Right"
+                 VerticalAlignment="Center"
+                 Margin="0,0,10,0"
+                 Background="Transparent"
+                 BorderThickness="0">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <i:CallMethodAction TargetObject="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                      MethodName="Close"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+
+        <Border Grid.Row="1"
+                Height="70"
+                Width="250" 
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="10,5,0,0"
+                CornerRadius="30"
+                Background="#FBE8D3">
+            <Label     Content="{Binding CountAllEggs}"
+                       FontSize="30"
+                       FontWeight="Bold"
+                       VerticalContentAlignment="Center"
+                       HorizontalContentAlignment="Center"/>
+
+        </Border>
+        <Border Grid.Row="1"
+                Height="70"
+                Width="250" 
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="10,95,0,0"
+                CornerRadius="30"
+                Background="#FBE8D3">
+            <Label     Content="{Binding CountEggAfterSold, UpdateSourceTrigger=PropertyChanged}"
+                       FontSize="30"
+                       FontWeight="Bold"
+                       VerticalContentAlignment="Center"
+                       HorizontalContentAlignment="Center"/>
+
+        </Border>
+        <Border Grid.Row="1"
+                Height="70"
+                Width="250" 
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="10,190,0,0"
+                CornerRadius="30"
+                Background="#FBE8D3">
+            <Label     Content="{Binding AllCountSold}"
+                       FontSize="30"
+                       FontWeight="Bold"
+                       VerticalContentAlignment="Center"
+                       HorizontalContentAlignment="Center"/>
+
+        </Border>
+        <Label Content="ВСЕГО СОБРАНО ЯИЦ" 
+               HorizontalAlignment="Left" 
+               Margin="35,5,0,0" 
+               Grid.Row="1" 
+               VerticalAlignment="Top" 
+               Width="202" 
+               Height="30"
+               HorizontalContentAlignment="Center"
+               VerticalContentAlignment="Center"
+               Foreground="Black" 
+               FontFamily="Bahnschrift"/>
+        <Label Content="ОСТАТОК ЯИЦ ПОСЛЕ ПРОДАЖИ" 
+               HorizontalAlignment="Left" 
+               Margin="33,95,0,0" 
+               Grid.Row="1" 
+               VerticalAlignment="Top" 
+               Width="202" 
+               Height="30"
+               HorizontalContentAlignment="Center"
+               VerticalContentAlignment="Center"
+               Foreground="Black" 
+               FontFamily="Bahnschrift"/>
+        <Label Content="КОЛИЧЕСТВО ПРОДАННЫХ" 
+               HorizontalAlignment="Left" 
+               Margin="33,190,0,0" 
+               Grid.Row="1" 
+               VerticalAlignment="Top" 
+               Width="202" 
+               Height="30"
+               HorizontalContentAlignment="Center"
+               VerticalContentAlignment="Center"
+               Foreground="Black" 
+               FontFamily="Bahnschrift"/>
+        <TextBox HorizontalAlignment="Left" 
+                 Margin="10,315,0,0" 
+                 Grid.Row="1" 
+                 TextWrapping="Wrap"                   
+                 VerticalAlignment="Top" 
+                 Width="227"
+                 Height="30"
+                 Foreground="White"
+                 materialDesign:HintAssist.Hint="Количество собранных яиц за сегодня..."
+                 Text="{Binding CollectEggs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox 
+            HorizontalAlignment="Left" 
+            Margin="10,398,0,0" 
+            Grid.Row="1" 
+            TextWrapping="Wrap"                   
+            VerticalAlignment="Top" 
+            Width="227"
+            Height="30"
+            Foreground="White"
+            materialDesign:HintAssist.Hint="Количество проданных яиц за сегодня..."
+            Text="{Binding SoldEggs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <materialDesign:PackIcon Kind="BasketFill"                                   
+                                 VerticalAlignment="Bottom"
+                                 Foreground="Green"
+                                 Grid.Row="1" 
+                                 Margin="209,0,0,231"
+                                 Height="26"
+                                 Width="26"/>
+        <materialDesign:PackIcon Kind="Ruble"                                   
+                                 VerticalAlignment="Bottom"
+                                 Foreground="Yellow"
+                                 Grid.Row="1" 
+                                 Margin="209,0,0,148"
+                                 Height="26"
+                                 Width="26"/>
+        <Button 
+                Content="Подтвердить" 
+                HorizontalAlignment="Left" 
+                Margin="10,350,0,0" 
+                Grid.Row="1" 
+                VerticalAlignment="Top" 
+                Width="197"
+                materialDesign:ButtonAssist.CornerRadius="15"
+                Background="#7FFF9C"
+                Foreground="Black"
+                BorderThickness="0"
+                Command="{Binding AcceptCollectedEggsCommand}"
+                IsEnabled="{Binding AcceptCollectCorrect, UpdateSourceTrigger=PropertyChanged}"
+                IsDefault="True"/>
+        <Button 
+            Content="Подтвердить" 
+            HorizontalAlignment="Left" 
+            Margin="10,433,0,0" 
+            Grid.Row="1" 
+            VerticalAlignment="Top" 
+            Width="197"
+            materialDesign:ButtonAssist.CornerRadius="15"
+            Background="#F2FF7F"
+            Foreground="Black"
+            BorderThickness="0"
+            Command="{Binding AcceptSoldEggsCommand}"
+            IsEnabled="{Binding AcceptSoldCorrect, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            IsDefault="True"/>
+        <Button 
+            Content="Рассчитать" 
+            HorizontalAlignment="Left" 
+            Margin="10,470,0,0" 
+            Grid.Row="1" 
+            VerticalAlignment="Top" 
+            Width="197"
+            materialDesign:ButtonAssist.CornerRadius="15"
+            Background="White"
+            Foreground="Black"
+            BorderBrush="White"
+            Command="{Binding OpenCalcWindowCommand}"/>
+        <Button 
+            Content="Удалить всё" 
+            HorizontalAlignment="Left" 
+            Margin="10,568,0,0" 
+            Grid.Row="1" 
+            VerticalAlignment="Top" 
+            Width="197"            
+            Background="#eb0d44"
+            Foreground="White"
+            BorderThickness="0"
+            Command="{Binding WarningRemoveAllCommand}"/>
+        <materialDesign:PackIcon 
+            Kind="Calculator"                                   
+            VerticalAlignment="Bottom"
+            Foreground="White"
+            Grid.Row="1" 
+            Margin="209,0,0,111"
+            Height="26"
+            Width="26"/>
+        <materialDesign:PackIcon 
+            Kind="RemoveBoxMultiple"                                   
+            VerticalAlignment="Bottom"
+            Foreground="#eb0d44"
+            Grid.Row="1" 
+            Margin="211,0,0,13"
+            Height="26"
+            Width="26"/>
+        <materialDesign:PackIcon 
+            Kind="Egg"                                   
+            VerticalAlignment="Bottom"
+            Foreground="White"
+            Grid.Row="1" 
+            Margin="265,0,0,552"
+            Height="36"
+            Width="35"/>
+        <materialDesign:PackIcon 
+            Kind="EggOutline"                                   
+            VerticalAlignment="Bottom"
+            Foreground="White"
+            Grid.Row="1" 
+            Margin="265,0,0,462"
+            Height="36"
+            Width="35"/>
+        <materialDesign:PackIcon 
+            Kind="HandCoin"                                   
+            VerticalAlignment="Bottom"
+            Foreground="White"
+            Grid.Row="1" 
+            Margin="265,0,0,367"
+            Height="36"
+            Width="35"/>
+        <Button 
+            Content="Удалить элемент" 
+            HorizontalAlignment="Left" 
+            Margin="10,531,0,0" 
+            Grid.Row="1" 
+            VerticalAlignment="Top" 
+            Width="197"            
+            Background="#eb0d44"
+            Foreground="White"
+            BorderThickness="0"
+            Command="{Binding RemoveElementCommand}"/>
+        <materialDesign:PackIcon 
+            Kind="RemoveThick"                                   
+            VerticalAlignment="Bottom"
+            Foreground="#eb0d44"
+            Grid.Row="1" 
+            Margin="211,0,0,50"
+            Height="26"
+            Width="26"/>
+
+
+
+
+    </Grid>
+</Window>

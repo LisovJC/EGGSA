@@ -1,0 +1,216 @@
+﻿<Window x:Class="EGGSA.CalculationsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EGGSA"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"         
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+        xmlns:viewmodels="clr-namespace:EGGSA.ViewModels" xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        mc:Ignorable="d"
+        Title="EGGSA" 
+        MinHeight="700" MinWidth="1000"
+        MaxHeight="700" MaxWidth="1000"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+
+    <Window.DataContext>
+        <viewmodels:CalculationsViewModels/>
+    </Window.DataContext>
+
+    <Grid   MinHeight="700" MinWidth="1000"
+            MaxHeight="700" MaxWidth="1000">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Rectangle Grid.Row="0"
+                   Fill="#00ADB5" MouseLeftButtonDown="Rectangle_MouseLeftButtonDown"/>
+        <Rectangle Grid.Row="1"
+                   Fill="#303841"/>
+        <materialDesign:PackIcon Kind="ExitToApp"
+                                 Width="20"
+                                 Height="20" 
+                                 HorizontalAlignment="Right" 
+                                 VerticalAlignment="Center"
+                                 Margin="0,0,10,0"/>
+        <Button Width="20"
+                Height="20"
+                Background="Transparent"
+                BorderThickness="0" Margin="970,10,10,10">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <i:CallMethodAction TargetObject="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                      MethodName="Close"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <Label Content="Расчёты"
+               FontWeight="Bold"
+               HorizontalAlignment="Left" 
+               Margin="10,0,0,0" 
+               VerticalAlignment="Center"/>
+        <TextBox HorizontalAlignment="Left" 
+                 Margin="38,50,0,0" 
+                 Grid.Row="1" 
+                 TextWrapping="Wrap" 
+                 Text="{Binding PriceBag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                 VerticalAlignment="Top" 
+                 Width="215"
+                 materialDesign:HintAssist.Hint="Введите стоимость за мешок корма"
+                 Foreground="White"/>
+        <TextBox 
+            HorizontalAlignment="Left" 
+            Margin="269,50,0,0" 
+            Grid.Row="1" 
+            TextWrapping="Wrap" 
+            Text="{Binding PriceTenEggs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            VerticalAlignment="Top" 
+            Width="215"
+            materialDesign:HintAssist.Hint="Введите стоимость за десяток яиц"
+            Foreground="White"/>
+        <Label Content="Стоимость мешка корма" 
+               HorizontalAlignment="Left" 
+               Margin="38,21,0,0" 
+               Grid.Row="1" 
+               VerticalAlignment="Top" 
+               Width="215"
+               HorizontalContentAlignment="Center"
+               VerticalContentAlignment="Center"
+               Foreground="White"
+               FontFamily="Bahnschrift"
+               FontSize="15"/>
+        <Label Content="Стоимость десятка яиц" 
+               HorizontalAlignment="Left" 
+               Margin="269,21,0,0" 
+               Grid.Row="1" 
+               VerticalAlignment="Top" 
+               Width="215"
+               HorizontalContentAlignment="Center"
+               VerticalContentAlignment="Center"
+               Foreground="White"
+               FontFamily="Bahnschrift"
+               FontSize="15"/>
+        <RadioButton Content="За неделю" 
+                     Margin="546,46,344,579" 
+                     Grid.Row="1"
+                     Foreground="White"
+                     IsChecked="{Binding Week, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <RadioButton Content="За месяц" 
+            Margin="546,86,344,538" 
+            Grid.Row="1"
+            Foreground="White"
+            IsChecked="{Binding Month, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <RadioButton Content="За полгода" 
+            Margin="546,127,344,497" 
+            Grid.Row="1"
+            Foreground="White"
+            IsChecked="{Binding HalfYear, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <RadioButton Content="За год" 
+            Margin="546,168,344,456" 
+            Grid.Row="1"
+            Foreground="White"
+            IsChecked="{Binding Year, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <RadioButton Content="За всё время" 
+            Margin="546,209,344,415" 
+            Grid.Row="1"
+            Foreground="White"
+            IsChecked="{Binding AllTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Content="Расчёт за период:" 
+            HorizontalAlignment="Left" 
+            Margin="533,21,0,0" 
+            Grid.Row="1" 
+            VerticalAlignment="Top" 
+            Width="135"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Foreground="White"
+            FontFamily="Bahnschrift"
+            FontSize="15"/>
+        <Button  
+            Content="Произвести рассчёты" 
+            HorizontalAlignment="Left" 
+            Margin="269,150,0,0" 
+            Grid.Row="1" 
+            VerticalAlignment="Top" 
+            Width="215"
+            materialDesign:ButtonAssist.CornerRadius="15"
+            Background="#00ADB5"
+            Foreground="Black"
+            BorderThickness="0" 
+            FontFamily="Bahnschrift" 
+            Cursor="Hand" Height="32"
+            FontSize="15"
+            Command="{Binding CalculationsCommand}"
+            IsEnabled="{Binding isCorrect, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <materialDesign:PackIcon 
+            Kind="CalculatorVariant"
+            Width="27"
+            Height="20" 
+            HorizontalAlignment="Right"
+            Margin="0,156,698,0" 
+            Grid.Row="1"
+            Foreground="Yellow"/>
+        <TextBox HorizontalAlignment="Left" 
+            Margin="38,157,0,0" 
+            Grid.Row="1" 
+            TextWrapping="Wrap" 
+            Text="{Binding CountBag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            VerticalAlignment="Top" 
+            Width="215"
+            materialDesign:HintAssist.Hint="Введите количество мешков корма"
+            Foreground="White"/>
+        <Label Content="Количество мешков корма" 
+            HorizontalAlignment="Left" 
+            Margin="38,128,0,0" 
+            Grid.Row="1" 
+            VerticalAlignment="Top" 
+            Width="215"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Foreground="White"
+            FontFamily="Bahnschrift"
+            FontSize="15"/>
+        <Border Grid.Row="1"
+                Width="300"
+                CornerRadius="30"
+                Background="#FBE8D3"
+                Height="150" Margin="690,10,10,500">
+            <Label Content="{Binding result, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                   FontFamily="Bahnschrift"
+                   FontSize="25"
+                   HorizontalContentAlignment="Center"
+                   VerticalContentAlignment="Center"/>
+        </Border>
+
+        <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Right" Margin="10,340,10,20" Grid.Row="1" >
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis LabelFormatter="{Binding YFormatter}"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Моменты добавления сведений"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+        </lvc:CartesianChart>
+        <Label Content="Динамика яиц за выбранный период:" 
+               HorizontalAlignment="Left" 
+               Margin="117,281,0,0" 
+               Grid.Row="1" 
+               VerticalAlignment="Top" 
+               Width="796" Height="58"
+               HorizontalContentAlignment="Center"
+               VerticalContentAlignment="Center"
+               Foreground="White"
+               FontSize="25"
+               FontFamily="Bahnschrift"/>
+        <materialDesign:PackIcon 
+            Kind="CalculatorVariant"
+            Width="24"
+            Height="15"
+            Margin="62,0,0,0"
+            Foreground="White" VerticalAlignment="Center"/>
+
+
+    </Grid>
+
+</Window>
